@@ -6,6 +6,9 @@
 
 return array(
     'service_manager' => array(
+        'invokables' => array(
+            'ZF\\Doctrine\\QueryBuilder\\Filter\\Hydrator\\Strategy\\CollectionLink' => 'ZF\\Doctrine\\QueryBuilder\\Filter\\Hydrator\\Strategy\\CollectionLink',
+        ),
         'factories' => array(
             'ZfDoctrineQueryBuilderFilterManagerOrm' => 'ZF\Doctrine\QueryBuilder\Filter\Service\ORMFilterManagerFactory',
             'ZfDoctrineQueryBuilderFilterManagerOdm' => 'ZF\Doctrine\QueryBuilder\Filter\Service\ODMFilterManagerFactory',
