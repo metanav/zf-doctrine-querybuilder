@@ -59,6 +59,7 @@ return array(
             'between' => 'ZF\Doctrine\QueryBuilder\Filter\ODM\Between',
             'like' => 'ZF\Doctrine\QueryBuilder\Filter\ODM\Like',
             'regex' => 'ZF\Doctrine\QueryBuilder\Filter\ODM\Regex',
+            'orandx' => 'ZF\Doctrine\QueryBuilder\Filter\ODM\OrAndX',
         ),
     ),
 );

@@ -7,12 +7,32 @@
 namespace ZF\Doctrine\QueryBuilder\Filter\ODM;
 
 use ZF\Doctrine\QueryBuilder\Filter\FilterInterface;
+use ZF\Doctrine\QueryBuilder\Filter\Service\ODMFilterManager;
 use DateTime;
 
 abstract class AbstractFilter implements FilterInterface
 {
     abstract public function filter($queryBuilder, $metadata, $option);
+    
+    protected $filterManager;
 
+    public function __construct($params)
+    {
+        $this->setFilterManager($params[0]);
+    }
+    
+
+    public function setFilterManager(ODMFilterManager $filterManager)
+    {
+        $this->filterManager = $filterManager;
+        return $this;
+    }
+
+    public function getFilterManager()
+    {
+        return $this->filterManager;
+    }
+    
     protected function typeCastField($metadata, $field, $value, $format = null, $doNotTypecastDatetime = false)
     {
         if (! isset($metadata->fieldMappings[$field])) {

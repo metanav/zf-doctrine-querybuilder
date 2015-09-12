@@ -20,7 +20,7 @@ class ODMFilterTest extends AbstractHttpControllerTestCase
         $metadata = $objectManager->getMetadataFactory()->getAllMetadata();
 
         $filterManager->filter($queryBuilder, $metadata[0], $filters);
-
+        var_dump($queryBuilder->getQuery()->debug());
         $result = $queryBuilder->getQuery()->execute();
         return sizeof($result);
     }
@@ -664,6 +664,48 @@ class ODMFilterTest extends AbstractHttpControllerTestCase
                 'where' => 'and',
                 'type'=>'regex',
                 'value' => '/.*T.*$/'
+            ),
+        );
+
+        $this->assertEquals(2, $this->countResult($filters));
+    }
+
+    public function testOrAndX()
+    {
+        $filters = array(
+            array(
+                'type' => 'orandx',
+                'where' => 'or',
+                'conditions' => array(
+                    array(
+                        'field' => 'name',
+                        'type' => 'eq',
+                        'value' => 'MetaOne'
+                    ),
+
+                    array(
+                        'field' => 'createdAt',
+                        'type' => 'eq',
+                        'value' => '2011-12-18 13:17:17'
+                    ),
+                ),
+            ),
+            array(
+                'type' => 'orandx',
+                'where' => 'or',
+                'conditions' => array(
+                    array(
+                        'field' => 'name',
+                        'type' => 'eq',
+                        'value' => 'MetaTwo'
+                    ),
+
+                    array(
+                        'field' => 'createdAt',
+                        'type' => 'eq',
+                        'value' => '2014-12-18 13:17:17'
+                    ),
+                ),
             ),
         );
 

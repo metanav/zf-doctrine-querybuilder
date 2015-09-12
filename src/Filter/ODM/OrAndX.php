@@ -6,7 +6,7 @@
 
 namespace ZF\Doctrine\QueryBuilder\Filter\ODM;
 
-class Equals extends AbstractFilter
+class OrAndX extends AbstractFilter
 {
     public function filter($queryBuilder, $metadata, $option)
     {
@@ -21,16 +21,16 @@ class Equals extends AbstractFilter
         }
 
         $expr = $queryBuilder->expr();
-        $this->buildExpr($expr, $metadata, $option);
-        $queryBuilder->$queryType($expr, $metadata, $option);
-    }
-    
-    public function buildExpr($expr, $metadata, $option)
-    {
-        $format = isset($option['format']) ? $option['format'] : null;
-
-        $value = $this->typeCastField($metadata, $option['field'], $option['value'], $format);
-
-        $expr->field($option['field'])->equals($value);
+        
+        foreach ($option['conditions'] as $condition) {
+            $filter = $this->getFilterManager()->get(
+                strtolower($condition['type']),
+                array($this->getFilterManager())
+            );
+            
+            $filter->buildExpr($expr, $metadata, $condition);
+        }
+        
+        $queryBuilder->$queryType($expr);
     }
 }
